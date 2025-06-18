@@ -1,0 +1,939 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+
+  <head>
+
+    <title>Tặng bé yêu</title>
+
+    <meta name="Generator" content="EditPlus" />
+
+    <meta name="Author" content="" />
+
+    <meta name="Keywords" content="" />
+
+    <meta name="Description" content="" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+
+      html,
+
+      body {
+
+        height: 100%;
+
+        padding: 0;
+
+        margin: 0;
+
+        background: #000;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+        font-family: 'Poppins', 'Comic Sans MS', cursive, sans-serif;
+
+      }
+
+      h1 {
+
+        color: #ff5ca4;
+        font-family: 'Pacifico', 'Comic Sans MS', cursive, sans-serif;
+
+        font-size: 2.5em;
+        z-index: 21;
+
+        letter-spacing: 2px;
+      }
+
+      .box {
+
+        width: 100%;
+
+        position: absolute;
+
+        top: 50%;
+
+        left: 50%;
+
+        transform: translate(-50%, -50%);
+
+        display: flex;
+
+        flex-direction: column;
+
+        z-index: 20;
+
+      }
+
+
+      canvas {
+
+        position: absolute;
+
+        width: 100%;
+
+        height: 100%;
+
+      }
+
+      #pinkboard {
+
+        position: relative;
+
+        margin: auto;
+
+        height: 600px;
+
+        width: 600px;
+
+        animation: animate 2s infinite;
+
+        z-index: 21;
+
+      }
+
+      h1 {
+
+        animation: animate 2s infinite;
+
+      }
+
+      #pinkboard:before,
+
+      #pinkboard:after {
+
+        content: "";
+
+        position: absolute;
+
+        background: #ff5ca4;
+
+        width: 100px;
+
+        height: 160px;
+
+        border-top-left-radius: 50px;
+
+        border-top-right-radius: 50px;
+
+      }
+
+
+      #pinkboard:before {
+
+        left: 100px;
+
+        transform: rotate(-45deg);
+
+        transform-origin: 0 100%;
+
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+
+          0 10px 10px rgba(0, 0, 0, 0.22);
+
+      }
+
+
+      #pinkboard:after {
+
+        left: 0;
+
+        transform: rotate(45deg);
+
+        transform-origin: 100% 100%;
+
+      }
+
+
+      @keyframes animate {
+
+        0% {
+
+          transform: scale(1);
+
+        }
+
+        30% {
+
+          transform: scale(0.8);
+
+        }
+
+        60% {
+
+          transform: scale(1.2);
+
+        }
+
+        100% {
+
+          transform: scale(1);
+
+        }
+
+      }
+
+      /* 3D Falling Text Effect */
+      .falling-text {
+        position: fixed;
+        left: 50%;
+        font-size: 2em;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 0 2px 10px #ff5ca4, 0 0 20px #fff;
+        pointer-events: none;
+        transform: translateX(-50%) perspective(300px) rotateX(20deg);
+        opacity: 1;
+        transition: opacity 1s;
+        z-index: 10;
+        font-family: 'Pacifico', 'Comic Sans MS', cursive, sans-serif;
+        letter-spacing: 1.5px;
+      }
+
+      /* Bubble Effect */
+      .bubble {
+        position: fixed;
+        border-radius: 50%;
+        background: rgba(255, 92, 164, 0.2);
+        pointer-events: none;
+        z-index: 5;
+        box-shadow: 0 0 10px #ff5ca4, 0 0 30px #fff;
+        animation: bubble-float 8s linear infinite;
+      }
+
+      @keyframes bubble-float {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 0.7;
+        }
+        80% {
+          opacity: 0.5;
+        }
+        100% {
+          transform: translateY(100vh) scale(1.2);
+          opacity: 0;
+        }
+      }
+
+    </style>
+
+  </head>
+
+
+  <body>
+    <h1 style="text-align: center; color: #e60073;">
+      Sinh Nhật Vui Vẻ<br>Ngọc Ánh !
+    </h1>
+    <div class="box">
+      <canvas id="pinkboard"></canvas>
+    </div>
+
+    <script>
+
+     
+
+      var settings = {
+
+        particles: {
+
+          length: 1000,
+
+          duration: 3,
+
+          velocity: 100,
+
+          effect: -0.75,
+
+          size: 13,
+
+        },
+
+      };
+
+     
+
+      (function () {
+
+        var b = 0;
+
+        var c = ["ms", "moz", "webkit", "o"];
+
+        for (var a = 0; a < c.length && !window.requestAnimationFrame; ++a) {
+
+          window.requestAnimationFrame = window[c[a] + "RequestAnimationFrame"];
+
+          window.cancelAnimationFrame =
+
+            window[c[a] + "CancelAnimationFrame"] ||
+
+            window[c[a] + "CancelRequestAnimationFrame"];
+
+        }
+
+        if (!window.requestAnimationFrame) {
+
+          window.requestAnimationFrame = function (h, e) {
+
+            var d = new Date().getTime();
+
+            var f = Math.max(0, 16 - (d - b));
+
+            var g = window.setTimeout(function () {
+
+              h(d + f);
+
+            }, f);
+
+            b = d + f;
+
+            return g;
+
+          };
+
+        }
+
+        if (!window.cancelAnimationFrame) {
+
+          window.cancelAnimationFrame = function (d) {
+
+            clearTimeout(d);
+
+          };
+
+        }
+
+      })();
+
+     
+
+      var Point = (function () {
+
+        function Point(x, y) {
+
+          this.x = typeof x !== "undefined" ? x : 0;
+
+          this.y = typeof y !== "undefined" ? y : 0;
+
+        }
+
+        Point.prototype.clone = function () {
+
+          return new Point(this.x, this.y);
+
+        };
+
+        Point.prototype.length = function (length) {
+
+          if (typeof length == "undefined")
+
+            return Math.sqrt(this.x * this.x + this.y * this.y);
+
+          this.normalize();
+
+          this.x *= length;
+
+          this.y *= length;
+
+          return this;
+
+        };
+
+        Point.prototype.normalize = function () {
+
+          var length = this.length();
+
+          this.x /= length;
+
+          this.y /= length;
+
+          return this;
+
+        };
+
+        return Point;
+
+      })();
+
+     
+
+      var Particle = (function () {
+
+        function Particle() {
+
+          this.position = new Point();
+
+          this.velocity = new Point();
+
+          this.acceleration = new Point();
+
+          this.age = 0;
+
+        }
+
+        Particle.prototype.initialize = function (x, y, dx, dy) {
+
+          this.position.x = x;
+
+          this.position.y = y;
+
+          this.velocity.x = dx;
+
+          this.velocity.y = dy;
+
+          this.acceleration.x = dx * settings.particles.effect;
+
+          this.acceleration.y = dy * settings.particles.effect;
+
+          this.age = 0;
+
+        };
+
+        Particle.prototype.update = function (deltaTime) {
+
+          this.position.x += this.velocity.x * deltaTime;
+
+          this.position.y += this.velocity.y * deltaTime;
+
+          this.velocity.x += this.acceleration.x * deltaTime;
+
+          this.velocity.y += this.acceleration.y * deltaTime;
+
+          this.age += deltaTime;
+
+        };
+
+        Particle.prototype.draw = function (context, image) {
+
+          function ease(t) {
+
+            return --t * t * t + 1;
+
+          }
+
+          var size = image.width * ease(this.age / settings.particles.duration);
+
+          context.globalAlpha = 1 - this.age / settings.particles.duration;
+
+          context.drawImage(
+
+            image,
+
+            this.position.x - size / 2,
+
+            this.position.y - size / 2,
+
+            size,
+
+            size
+
+          );
+
+        };
+
+        return Particle;
+
+      })();
+
+     
+
+      var ParticlePool = (function () {
+
+        var particles,
+
+          firstActive = 0,
+
+          firstFree = 0,
+
+          duration = settings.particles.duration;
+
+
+        function ParticlePool(length) {
+
+         
+
+          particles = new Array(length);
+
+          for (var i = 0; i < particles.length; i++)
+
+            particles[i] = new Particle();
+
+        }
+
+        ParticlePool.prototype.add = function (x, y, dx, dy) {
+
+          particles[firstFree].initialize(x, y, dx, dy);
+
+
+         
+
+          firstFree++;
+
+          if (firstFree == particles.length) firstFree = 0;
+
+          if (firstActive == firstFree) firstActive++;
+
+          if (firstActive == particles.length) firstActive = 0;
+
+        };
+
+        ParticlePool.prototype.update = function (deltaTime) {
+
+          var i;
+
+
+         
+
+          if (firstActive < firstFree) {
+
+            for (i = firstActive; i < firstFree; i++)
+
+              particles[i].update(deltaTime);
+
+          }
+
+          if (firstFree < firstActive) {
+
+            for (i = firstActive; i < particles.length; i++)
+
+              particles[i].update(deltaTime);
+
+            for (i = 0; i < firstFree; i++) particles[i].update(deltaTime);
+
+          }
+
+
+         
+
+          while (
+
+            particles[firstActive].age >= duration &&
+
+            firstActive != firstFree
+
+          ) {
+
+            firstActive++;
+
+            if (firstActive == particles.length) firstActive = 0;
+
+          }
+
+        };
+
+        ParticlePool.prototype.draw = function (context, image) {
+
+         
+
+          if (firstActive < firstFree) {
+
+            for (i = firstActive; i < firstFree; i++)
+
+              particles[i].draw(context, image);
+
+          }
+
+          if (firstFree < firstActive) {
+
+            for (i = firstActive; i < particles.length; i++)
+
+              particles[i].draw(context, image);
+
+            for (i = 0; i < firstFree; i++) particles[i].draw(context, image);
+
+          }
+
+        };
+
+        return ParticlePool;
+
+      })();
+
+     
+
+      (function (canvas) {
+
+        var context = canvas.getContext("2d"),
+
+          particles = new ParticlePool(settings.particles.length),
+
+          particleRate =
+
+            settings.particles.length / settings.particles.duration,
+
+          time;
+
+
+       
+
+        function pointOnHeart(t) {
+
+          return new Point(
+
+            160 * Math.pow(Math.sin(t), 3),
+
+            130 * Math.cos(t) -
+
+              50 * Math.cos(2 * t) -
+
+              20 * Math.cos(3 * t) -
+
+              10 * Math.cos(4 * t) +
+
+              25
+
+          );
+
+        }
+
+
+       
+
+        var image = (function () {
+
+          var canvas = document.createElement("canvas"),
+
+            context = canvas.getContext("2d");
+
+          canvas.width = settings.particles.size;
+
+          canvas.height = settings.particles.size;
+
+         
+
+          function to(t) {
+
+            var point = pointOnHeart(t);
+
+            point.x =
+
+              settings.particles.size / 2 +
+
+              (point.x * settings.particles.size) / 350;
+
+            point.y =
+
+              settings.particles.size / 2 -
+
+              (point.y * settings.particles.size) / 350;
+
+            return point;
+
+          }
+
+         
+
+          context.beginPath();
+
+          var t = -Math.PI;
+
+          var point = to(t);
+
+          context.moveTo(point.x, point.y);
+
+          while (t < Math.PI) {
+
+            t += 0.01;
+
+            point = to(t);
+
+            context.lineTo(point.x, point.y);
+
+          }
+
+          context.closePath();
+
+         
+
+          context.fillStyle = "#e60073";
+
+          context.fill();
+
+         
+
+          var image = new Image();
+
+          image.src = canvas.toDataURL();
+
+          return image;
+
+        })();
+
+
+       
+
+        function render() {
+
+         
+
+          requestAnimationFrame(render);
+
+
+         
+
+          var newTime = new Date().getTime() / 1000,
+
+            deltaTime = newTime - (time || newTime);
+
+          time = newTime;
+
+
+         
+
+          context.clearRect(0, 0, canvas.width, canvas.height);
+
+
+         
+
+          var amount = particleRate * deltaTime;
+
+          for (var i = 0; i < amount; i++) {
+
+            var pos = pointOnHeart(Math.PI - 2 * Math.PI * Math.random());
+
+            var dir = pos.clone().length(settings.particles.velocity);
+
+            particles.add(
+
+              canvas.width / 2 + pos.x,
+
+              canvas.height / 2 - pos.y,
+
+              dir.x,
+
+              -dir.y
+
+            );
+
+          }
+
+
+         
+
+          particles.update(deltaTime);
+
+          particles.draw(context, image);
+
+        }
+
+
+       
+
+        function onResize() {
+
+          canvas.width = canvas.clientWidth;
+
+          canvas.height = canvas.clientHeight;
+
+        }
+
+        window.onresize = onResize;
+
+
+       
+
+        setTimeout(function () {
+
+          onResize();
+
+          render();
+
+        }, 10);
+
+      })(document.getElementById("pinkboard"));
+
+    </script>
+
+    <!-- 3D Falling Text and Bubble Effects -->
+    <script>
+      // 3D Falling Text Effect
+      const messages = [
+        "Happy Birthday",
+        "Ngọc Ánh",
+        "Luôn slay",
+        "Mãi xinh đẹp !",
+        "Vui tươi nhiều nhé!",
+        "Mãi Tuổi 18",
+        "Love 17",
+        "",
+      ];
+      const activeTexts = [];
+      const maxTexts = 10; // Giới hạn số lượng chữ rơi cùng lúc
+
+      function createFallingText() {
+        if (activeTexts.length >= maxTexts) return; // Không tạo thêm nếu đã đủ
+
+        const text = document.createElement('div');
+        text.className = 'falling-text';
+        text.innerText = messages[Math.floor(Math.random() * messages.length)];
+        text.style.top = '-50px';
+
+        // Tính vị trí left không trùng lặp với các chữ đang rơi
+        let leftPos;
+        let tries = 0;
+        do {
+          leftPos = Math.random() * 80 + 10;
+          tries++;
+        } while (activeTexts.some(t => Math.abs(t.left - leftPos) < 8) && tries < 10);
+
+        text.style.left = `${leftPos}%`;
+        text.style.fontSize = `${Math.random() * 0.8 + 0.8}em`;
+        text.style.transform = `translateX(-50%) perspective(300px) rotateX(${Math.random() * 40 - 20}deg)`;
+        document.body.appendChild(text);
+
+        let y = -50;
+        let opacity = 0.5;
+        const speed = Math.random() * 0.5 + 0.3; // Giảm tốc độ rơi
+
+        activeTexts.push({element: text, left: leftPos});
+
+        function animate() {
+          y += speed;
+          text.style.top = y + 'px';
+          if (y > window.innerHeight - 100) {
+            opacity -= 0.02;
+            text.style.opacity = opacity;
+          }
+          if (opacity <= 0) {
+            text.remove();
+            // Xóa khỏi activeTexts khi kết thúc
+            const index = activeTexts.findIndex(t => t.element === text);
+            if (index !== -1) activeTexts.splice(index, 1);
+          } else {
+            requestAnimationFrame(animate);
+          }
+        }
+        animate();
+      }
+
+      setInterval(createFallingText, 700);
+
+      // Falling Bubble Effect - Improved
+      const activeBubbles = [];
+      const maxBubbles = 15; // Giới hạn số lượng bong bóng
+
+      function createBubble() {
+        if (activeBubbles.length >= maxBubbles) return;
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        const size = Math.random() * 40 + 20;
+        bubble.style.width = size + 'px';
+        bubble.style.height = size + 'px';
+
+        // Tính vị trí left không trùng lặp
+        let leftPos;
+        let tries = 0;
+        do {
+          leftPos = Math.random() * 100;
+          tries++;
+        } while (activeBubbles.some(b => Math.abs(b.left - leftPos) < 8) && tries < 10);
+
+        bubble.style.left = `${leftPos}%`;
+        bubble.style.top = '-60px';
+        bubble.style.background = `rgba(255, 92, 164, ${Math.random() * 0.3 + 0.2})`;
+        bubble.style.animationDuration = `${Math.random() * 4 + 6}s`;
+        document.body.appendChild(bubble);
+
+        activeBubbles.push({element: bubble, left: leftPos});
+
+        bubble.addEventListener('animationend', () => {
+          bubble.remove();
+          const index = activeBubbles.findIndex(b => b.element === bubble);
+          if (index !== -1) activeBubbles.splice(index, 1);
+        });
+      }
+
+      setInterval(createBubble, 800);
+
+
+
+      // List of image filenames in the /images folder
+      const imageFiles = [
+        "img_1a.jpg", "img_1b.jpg", "img_1c.jpg", "img_1d.jpg",
+        "img_2a.jpg", "img_2b.jpg", "img_2c.jpg", "img_2d.jpg", "img_2e.jpg",
+        "img_3a.jpg", "img_3b.jpg", "img_3c.jpg", "img_3d.jpg",
+        "img_4a.jpg", "img_4b.jpg", "img_4c.jpg",
+        "img_5a.jpg", "img_5b.jpg", "img_5c.jpg", "img_5d.jpg", "img_5e.jpg",
+        "img_6a.jpg", "img_6b.jpg", "img_6c.jpg",
+        "img_7a.jpg", "img_7b.jpg",
+        "img_8a.jpg", "img_8b.jpg", "img_8c.jpg", "img_8d.jpg",
+        "img_9a.jpg", "img_9b.jpg",
+        "img_10a.jpg", "img_10b.jpg", "img_10c.jpg", "img_10d.jpg",
+        "img_11a.jpg", "img_11b.jpg", "img_11c.jpg", "img_11d.jpg",
+        "img_12a.jpg", "img_12b.jpg", "img_12c.jpg", "img_12d.jpg",
+        "img_13a.jpg", "img_13b.jpg", "img_13c.jpg", "img_13d.jpg",
+        "img_14a.jpg", "img_14b.jpg",
+        "img_15a.jpg", "img_15b.jpg", "img_15c.jpg", "img_15d.jpg", "img_15e.jpg",
+        "img_16a.jpg", "img_16b.jpg",
+        "ngoc-anh.jpg", "z6717785272690_b9867e12e56e22a5ec33a803fb4ed4ce.jpg",
+        "z6717785272690_b9867e12e56e22a5ec33a803fb4ed4w.jpg",
+        "z6717785445130_ffae720365ea1f353637db65f3a381e6.jpg"
+      ];
+
+      function createFallingImage() {
+        const img = document.createElement('img');
+        img.className = 'falling-image';
+        img.src = `images/${imageFiles[Math.floor(Math.random() * imageFiles.length)]}`;
+        const size = Math.random() * 40 + 60; // 60-100px
+        img.style.width = `${size}px`;
+        img.style.height = 'auto';
+        img.style.position = 'fixed';
+        img.style.left = `${Math.random() * 80 + 10}%`;
+        img.style.top = '-120px';
+        img.style.borderRadius = '20px';
+        img.style.boxShadow = '0 4px 16px #ffb6d5, 0 0 24px #fff';
+        img.style.zIndex = 12;
+        img.style.pointerEvents = 'none';
+        img.style.opacity = 0;
+        img.style.transformOrigin = '50% 50%';
+
+        document.body.appendChild(img);
+
+        let y = -120;
+        let opacity = 0;
+        const speed = Math.random() * 1.2 + 0.7;
+        const rotationAmplitude = Math.random() * 15 + 10; // degrees
+        const rotationSpeed = Math.random() * 0.05 + 0.02;
+        const scaleAmplitude = 0.05;
+        const scaleSpeed = Math.random() * 0.05 + 0.02;
+        let rotationAngle = Math.random() * 360;
+        let scalePhase = Math.random() * 2 * Math.PI;
+
+        function animate() {
+          y += speed;
+          if (opacity < 1 && y < window.innerHeight / 3) {
+            opacity += 0.02;
+          } else if (y > window.innerHeight - 80) {
+            opacity -= 0.03;
+          }
+          img.style.top = y + 'px';
+          img.style.opacity = opacity;
+
+          rotationAngle += rotationSpeed;
+          const rotation = rotationAmplitude * Math.sin(rotationAngle);
+
+          scalePhase += scaleSpeed;
+          const scale = 1 + scaleAmplitude * Math.sin(scalePhase);
+
+          img.style.transform = `rotate(${rotation}deg) scale(${scale})`;
+
+          if (opacity <= 0) {
+            img.remove();
+          } else {
+            requestAnimationFrame(animate);
+          }
+        }
+        animate();
+      }
+
+      setInterval(createFallingImage, 1000);
+    </script>
+
+  </body>
+
+</html>

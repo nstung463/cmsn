@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loading Love</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffe0f0 0%, #ffb6d5 100%);
+      font-family: 'Comic Sans MS', 'Poppins', cursive, sans-serif;
+      overflow: hidden;
+    }
+    .center-container {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+    .heart-loader {
+      width: 120px;
+      height: 120px;
+      position: relative;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .heart-svg {
+      width: 120px;
+      height: 120px;
+      display: block;
+      position: absolute;
+      left: 0; top: 0;
+      z-index: 2;
+    }
+    .heart-bg {
+      fill: #ffd6e6;
+      opacity: 0.5;
+    }
+    .heart-progress {
+      fill: none;
+      stroke: #ff5ca4;
+      stroke-width: 8;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 8px #ff5ca4aa);
+      transition: stroke-dashoffset 0.3s cubic-bezier(.4,2,.6,1);
+    }
+    .heart-icon {
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2.5em;
+      color: #ff5ca4;
+      text-shadow: 0 2px 10px #ffb6d5, 0 0 20px #fff;
+      z-index: 3;
+      animation: heart-beat 1.2s infinite;
+    }
+    @keyframes heart-beat {
+      0%, 100% { transform: translate(-50%, -50%) scale(1);}
+      20% { transform: translate(-50%, -50%) scale(1.12);}
+      40% { transform: translate(-50%, -50%) scale(0.95);}
+      60% { transform: translate(-50%, -50%) scale(1.08);}
+      80% { transform: translate(-50%, -50%) scale(0.98);}
+    }
+    .loading-text {
+      font-size: 2em;
+      color: #ff5ca4;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 10px #ffb6d5, 0 0 20px #fff;
+      margin-bottom: 10px;
+      animation: loading-glow 1.5s infinite alternate;
+      user-select: none;
+    }
+    @keyframes loading-glow {
+      0% { text-shadow: 0 2px 10px #ffb6d5, 0 0 20px #fff;}
+      100% { text-shadow: 0 2px 20px #ff5ca4, 0 0 40px #fff;}
+    }
+    .percent-text {
+      font-size: 1.5em;
+      color: #ff5ca4;
+      font-weight: bold;
+      margin-top: 10px;
+      text-shadow: 0 2px 10px #ffb6d5, 0 0 20px #fff;
+      user-select: none;
+    }
+    .click-me-btn {
+      display: none;
+      margin-top: 40px;
+      padding: 18px 60px;
+      font-size: 2em;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(90deg, #ff5ca4 0%, #ffb6d5 100%);
+      border: none;
+      border-radius: 40px;
+      box-shadow: 0 4px 24px #ffb6d5, 0 0 24px #fff;
+      cursor: pointer;
+      outline: none;
+      position: relative;
+      z-index: 10;
+      letter-spacing: 2px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: clickme-pop 1.2s infinite alternate, clickme-glow 2s infinite alternate;
+    }
+    @keyframes clickme-pop {
+      0% { transform: scale(1);}
+      60% { transform: scale(1.08);}
+      100% { transform: scale(1);}
+    }
+    @keyframes clickme-glow {
+      0% { box-shadow: 0 4px 24px #ffb6d5, 0 0 24px #fff;}
+      100% { box-shadow: 0 8px 40px #ff5ca4, 0 0 40px #fff;}
+    }
+    .click-me-btn .heart-emoji {
+      margin-left: 10px;
+      font-size: 1.2em;
+      animation: heart-emoji-beat 1.2s infinite;
+      vertical-align: middle;
+    }
+    @keyframes heart-emoji-beat {
+      0%, 100% { transform: scale(1);}
+      30% { transform: scale(1.2);}
+      60% { transform: scale(0.9);}
+    }
+    /* Cute sparkles for click me */
+    .sparkle {
+      position: absolute;
+      pointer-events: none;
+      width: 18px;
+      height: 18px;
+      z-index: 20;
+      opacity: 0.8;
+      animation: sparkle-float 1.2s linear forwards;
+    }
+    @keyframes sparkle-float {
+      0% { opacity: 1; transform: scale(0.7) translateY(0);}
+      80% { opacity: 1;}
+      100% { opacity: 0; transform: scale(1.2) translateY(-40px);}
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .heart-loader { width: 80px; height: 80px;}
+      .heart-svg { width: 80px; height: 80px;}
+      .heart-icon { font-size: 1.5em;}
+      .loading-text { font-size: 1.2em;}
+      .percent-text { font-size: 1em;}
+      .click-me-btn { font-size: 1.2em; padding: 12px 30px;}
+    }
+    .heart-bubble {
+      position: fixed;
+      bottom: -40px;
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity 0.8s;
+      will-change: transform, opacity;
+      filter: drop-shadow(0 0 8px #ffb6d5);
+      user-select: none;
+      animation: none;
+    }
+  </style>
+</head>
+<body>
+  <audio id="bgMusic" src="images/birthday_song_1.mp3" preload="auto" loop style="display:none"></audio>
+  <button id="musicBtn" style="display:none;position:fixed;top:24px;right:24px;z-index:1000;padding:14px 28px;font-size:1.2em;background:#ffb6d5;color:#fff;border:none;border-radius:30px;box-shadow:0 2px 12px #ffb6d5;cursor:pointer;">🔊 Turn on music</button>
+  <!-- Greeting Screen -->
+  <div id="greetingScreen" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;width:100vw;position:fixed;top:0;left:0;z-index:100;background:linear-gradient(135deg,#ffe0f0 0%,#ffb6d5 100%);">
+    <div style="font-size:2.5em;color:#ff5ca4;font-family:'Pacifico','Comic Sans MS',cursive,sans-serif;text-shadow:0 2px 10px #ffb6d5,0 0 20px #fff;margin-bottom:40px;">Happy Birthday my baby! 💖</div>
+    <button id="nextBtn" style="padding:18px 60px;font-size:1.5em;font-weight:bold;color:#fff;background:linear-gradient(90deg,#ff5ca4 0%,#ffb6d5 100%);border:none;border-radius:40px;box-shadow:0 4px 24px #ffb6d5,0 0 24px #fff;cursor:pointer;outline:none;letter-spacing:2px;transition:transform 0.2s,box-shadow 0.2s;display:flex;align-items:center;gap:12px;">Next <span style='font-size:1.3em;'>🪐</span></button>
+  </div>
+  <!-- Letter Screen -->
+  <div id="letterScreen" style="display:none;flex-direction:column;align-items:center;justify-content:center;height:100vh;width:100vw;position:fixed;top:0;left:0;z-index:99;background:linear-gradient(135deg,#ffe0f0 0%,#ffb6d5 100%);">
+    <div style="background:#fff6fa;border-radius:32px;box-shadow:0 4px 32px #ffb6d5,0 0 24px #fff;padding:40px 32px 32px 32px;max-width:90vw;max-height:70vh;display:flex;flex-direction:column;align-items:center;">
+      <img src='images/ngoc-anh.jpg' alt='Cute Letter' style='width:120px;height:120px;object-fit:cover;border-radius:50%;box-shadow:0 2px 16px #ffb6d5;margin-bottom:24px;border:4px solid #ffb6d5;'>
+      <div style="font-size:1.3em;color:#ff5ca4;font-family:'Pacifico','Comic Sans MS',cursive,sans-serif;text-align:center;margin-bottom:18px;">To my dearest Ngọc Ánh 💌</div>
+      <div style="font-size:1.1em;color:#d72660;font-family:'Poppins','Comic Sans MS',cursive,sans-serif;text-align:center;max-width:400px;">
+        Wishing you a birthday filled with joy, laughter, and all the love in the world!<br>
+        You are always beautiful, always shining, and forever my special one.<br>
+        Chúc em tuổi mới luôn rạng rỡ, hạnh phúc và thành công nhé!<br>
+        <span style='font-size:1.5em;'>💗🌸✨</span>
+      </div>
+    </div>
+    <button id="continueBtn" style="margin-top:40px;padding:16px 50px;font-size:1.3em;font-weight:bold;color:#fff;background:linear-gradient(90deg,#ff5ca4 0%,#ffb6d5 100%);border:none;border-radius:40px;box-shadow:0 4px 24px #ffb6d5,0 0 24px #fff;cursor:pointer;outline:none;letter-spacing:2px;transition:transform 0.2s,box-shadow 0.2s;">Continue</button>
+  </div>
+  <div class="center-container" style="display:none;">
+    <div class="heart-loader">
+      <svg class="heart-svg" viewBox="0 0 120 120">
+        <path class="heart-bg" d="M60 110
+          C 20 80, 10 40, 60 30
+          C 110 40, 100 80, 60 110
+          Z"/>
+        <path class="heart-progress" id="heartProgress"
+          d="M60 110
+            C 20 80, 10 40, 60 30
+            C 110 40, 100 80, 60 110
+            Z"/>
+      </svg>
+      <div class="heart-icon" id="heartIcon">💖</div>
+    </div>
+    <div class="loading-text" id="loadingText">Loading Love</div>
+    <div class="percent-text" id="percentText">0%</div>
+    <button class="click-me-btn" id="clickMeBtn">
+      Click Me <span class="heart-emoji">💗</span>
+    </button>
+  </div>
+  <script>
+    // Heart path length for progress
+    const heartPath = document.getElementById('heartProgress');
+    const pathLength = heartPath.getTotalLength();
+    heartPath.style.strokeDasharray = pathLength;
+    heartPath.style.strokeDashoffset = pathLength;
+
+    // Heart icon scaling for pulsing effect
+    const heartIcon = document.getElementById('heartIcon');
+    // Music
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    // New screens
+    const greetingScreen = document.getElementById('greetingScreen');
+    const nextBtn = document.getElementById('nextBtn');
+    const letterScreen = document.getElementById('letterScreen');
+    const continueBtn = document.getElementById('continueBtn');
+    const centerContainer = document.querySelector('.center-container');
+
+    // Loading animation
+    let percent = 0;
+    const percentText = document.getElementById('percentText');
+    const loadingText = document.getElementById('loadingText');
+    const clickMeBtn = document.getElementById('clickMeBtn');
+    let loadingInterval;
+    let loadingDone = false;
+
+    // Floating heart bubbles
+    function createHeartBubble() {
+      const bubble = document.createElement('div');
+      bubble.className = 'heart-bubble';
+      const size = 18 + Math.random() * 18;
+      bubble.style.width = size + 'px';
+      bubble.style.height = size + 'px';
+      bubble.style.left = (10 + Math.random() * 80) + 'vw';
+      bubble.style.bottom = '-40px';
+      bubble.style.opacity = 0.7 + Math.random() * 0.3;
+      bubble.innerHTML = '<span style="font-size:' + size + 'px;">💖</span>';
+      bubble.style.position = 'fixed';
+      bubble.style.pointerEvents = 'none';
+      bubble.style.zIndex = 0;
+      document.body.appendChild(bubble);
+      // Animate
+      const duration = 2.2 + Math.random() * 1.5;
+      bubble.animate([
+        { transform: `translateY(0) scale(1)`, opacity: bubble.style.opacity },
+        { transform: `translateY(-${120 + Math.random() * 120}px) scale(${0.8 + Math.random() * 0.5})`, opacity: 0 }
+      ], {
+        duration: duration * 1000,
+        easing: 'ease-out',
+        fill: 'forwards'
+      });
+      setTimeout(() => bubble.remove(), duration * 1000);
+    }
+    // Bubble interval
+    let bubbleInterval;
+    function startHeartBubbles() {
+      bubbleInterval = setInterval(() => {
+        if (!loadingDone && Math.random() < 0.8) createHeartBubble();
+      }, 320);
+    }
+    function stopHeartBubbles() {
+      clearInterval(bubbleInterval);
+    }
+
+    function animateLoading() {
+      loadingInterval = setInterval(() => {
+        if (percent < 100) {
+          percent += Math.random() * 2 + 0.7; // random for more natural
+          if (percent > 100) percent = 100;
+          percentText.textContent = Math.floor(percent) + '%';
+          // Animate heart progress
+          const offset = pathLength * (1 - percent / 100);
+          heartPath.style.strokeDashoffset = offset;
+          // Heart pulsing scale
+          const scale = 1 + 0.08 * Math.sin(percent / 100 * Math.PI) + 0.08 * Math.random();
+          heartIcon.style.transform = `translate(-50%, -50%) scale(${scale.toFixed(3)})`;
+        } else if (!loadingDone) {
+          percent = 100;
+          percentText.textContent = '100%';
+          heartPath.style.strokeDashoffset = 0;
+          heartIcon.style.transform = 'translate(-50%, -50%) scale(1.12)';
+          loadingDone = true;
+          setTimeout(showClickMe, 700);
+          clearInterval(loadingInterval);
+          stopHeartBubbles();
+        }
+      }, 24);
+    }
+
+    // Cute sparkle effect for click me
+    function createSparkle(x, y) {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = (x - 9) + 'px';
+      sparkle.style.top = (y - 9) + 'px';
+      sparkle.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 18 18">
+          <polygon points="9,0 11,7 18,9 11,11 9,18 7,11 0,9 7,7" fill="#fff6fa" stroke="#ff5ca4" stroke-width="1"/>
+        </svg>
+      `;
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 1200);
+    }
+
+    // Show click me button with animation
+    function showClickMe() {
+      percentText.style.display = 'none';
+      loadingText.textContent = 'Ready!';
+      loadingText.style.animation = 'none';
+      setTimeout(() => {
+        loadingText.textContent = 'Click Me!';
+        loadingText.style.color = '#ff5ca4';
+        clickMeBtn.style.display = 'inline-block';
+        // Cute pop-in
+        clickMeBtn.style.transform = 'scale(0.7)';
+        setTimeout(() => {
+          clickMeBtn.style.transform = 'scale(1)';
+        }, 80);
+      }, 600);
+    }
+
+    // Sparkle on hover and click
+    clickMeBtn.addEventListener('mousemove', function(e) {
+      if (Math.random() < 0.2) { // not too many sparkles
+        const rect = clickMeBtn.getBoundingClientRect();
+        createSparkle(
+          rect.left + Math.random() * rect.width,
+          rect.top + Math.random() * rect.height
+        );
+      }
+    });
+    clickMeBtn.addEventListener('click', function(e) {
+      // Burst of sparkles
+      const rect = clickMeBtn.getBoundingClientRect();
+      for (let i = 0; i < 8; i++) {
+        setTimeout(() => {
+          createSparkle(
+            rect.left + Math.random() * rect.width,
+            rect.top + Math.random() * rect.height
+          );
+        }, i * 60);
+      }
+      // Button pop
+      clickMeBtn.style.transform = 'scale(1.12)';
+      setTimeout(() => {
+        clickMeBtn.style.transform = 'scale(1)';
+      }, 180);
+      // Redirect after a short delay
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 700);
+    });
+
+    // Animate heart icon color on loading
+    let heartColors = ['#ff5ca4', '#ffb6d5', '#ff8fcf', '#ff5ca4'];
+    let colorIdx = 0;
+    setInterval(() => {
+      if (!loadingDone) {
+        heartIcon.style.color = heartColors[colorIdx % heartColors.length];
+        colorIdx++;
+      }
+    }, 400);
+
+    // Animate loading text "Loading Love" with a typewriter effect
+    const loadingStr = "Loading Love";
+    let loadingIdx = 0;
+    function typeLoadingText() {
+      if (loadingDone) return;
+      loadingText.textContent = loadingStr.slice(0, loadingIdx + 1);
+      loadingIdx = (loadingIdx + 1) % (loadingStr.length + 1);
+      setTimeout(typeLoadingText, 120);
+    }
+    typeLoadingText();
+
+    // Hide all except greeting at start
+    greetingScreen.style.display = 'flex';
+    letterScreen.style.display = 'none';
+    centerContainer.style.display = 'none';
+
+    // Next button: show letter
+    nextBtn.addEventListener('click', function() {
+      greetingScreen.style.display = 'none';
+      letterScreen.style.display = 'flex';
+    });
+    // Continue button: show loading
+    continueBtn.addEventListener('click', function() {
+      letterScreen.style.display = 'none';
+      centerContainer.style.display = 'flex';
+      // Start loading
+      animateLoading();
+      startHeartBubbles();
+    });
+
+    // Try to autoplay music on page load
+    function tryPlayMusic() {
+      bgMusic.volume = 0.5;
+      bgMusic.play().then(() => {
+        musicBtn.style.display = 'none';
+      }).catch(() => {
+        // Show button if autoplay is blocked
+        musicBtn.style.display = 'block';
+      });
+    }
+    window.addEventListener('DOMContentLoaded', tryPlayMusic);
+    // Also try again on any user interaction
+    musicBtn.addEventListener('click', function() {
+      tryPlayMusic();
+    });
+    document.body.addEventListener('click', function() {
+      if (musicBtn.style.display === 'block') tryPlayMusic();
+    }, { once: true });
+  </script>
+</body>
+</html>

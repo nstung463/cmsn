@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Ngọc Ánh</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        @keyframes float {
+            0% { transform: translateY(0px) translateX(-50%); opacity: 1; }
+            100% { transform: translateY(100vh) translateX(-50%); opacity: 0; }
+        }
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes bubble-float {
+            0% { transform: translateY(100%) translateX(0) scale(1); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) translateX(calc(sin(var(--angle)) * 50px)) scale(1.2); opacity: 0; }
+        }
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: white;
+            animation: sparkle var(--duration, 1.5s) ease-in-out infinite;
+            animation-delay: var(--delay, 0s);
+        }
+        .bubble {
+            position: absolute;
+            bottom: -20px;
+            width: var(--size, 20px);
+            height: var(--size, 20px);
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 105, 180, 0.6));
+            animation: bubble-float var(--duration, 8s) ease-in-out infinite;
+            animation-delay: var(--delay, 0s);
+            --angle: 0deg;
+        }
+        .floating-text {
+            position: fixed;
+            top: -50px;
+            left: 50%;
+            animation: float 8s linear forwards;
+            z-index: 5;
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+            text-shadow: 0 0 5px rgba(255,255,255,0.8);
+            will-change: transform;
+        }
+        .modal {
+            transition: all 0.3s ease;
+        }
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .heart-beat {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .photo-frame {
+            background: linear-gradient(135deg, #f5f7fa 0%, #ffeef8 100%);
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+            transform: rotate(-2deg);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        .photo-frame:hover {
+            transform: rotate(0deg) scale(1.03);
+        }
+        .carousel-item {
+            transition: all 0.5s ease;
+        }
+        .carousel-item:not(.active) {
+            opacity: 0;
+            position: absolute;
+            transform: scale(0.9);
+        }
+        .bg-pattern {
+            background-image: 
+                radial-gradient(circle at 100% 100%, rgba(255,192,203,0.2) 0%, transparent 50%),
+                radial-gradient(circle at 0% 0%, rgba(147,51,234,0.2) 0%, transparent 50%),
+                linear-gradient(45deg, rgba(255,192,203,0.1) 25%, transparent 25%, transparent 75%, rgba(255,192,203,0.1) 75%),
+                linear-gradient(-45deg, rgba(147,51,234,0.1) 25%, transparent 25%, transparent 75%, rgba(147,51,234,0.1) 75%);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            animation: pattern-shift 20s linear infinite;
+        }
+        @keyframes pattern-shift {
+            0% { background-position: 0 0, 0 0, 0 0, 0 0; }
+            100% { background-position: 100px 100px, -100px -100px, 40px 40px, -40px -40px; }
+        }
+
+        #mobileMenu {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #mobileMenu.scale-95 {
+            transform: scale(0.95);
+        }
+
+        #mobileMenu.scale-100 {
+            transform: scale(1);
+        }
+
+        #mobileMenu.opacity-0 {
+            opacity: 0;
+        }
+
+        #mobileMenu.opacity-100 {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .carousel-item .gallery-row {
+                flex-direction: column !important;
+                gap: 0.5rem !important;
+                align-items: center !important;
+            }
+            .carousel-item .gallery-img {
+                width: 100% !important;
+                max-width: 95vw !important;
+                height: auto !important;
+                max-height: 60vw !important;
+                margin-bottom: 0.5rem;
+            }
+            .carousel-item .gallery-img:not(:first-child) {
+                display: none !important;
+            }
+            .carousel-item.active .gallery-img {
+                display: block !important;
+            }
+            .carousel-item .gallery-img {
+                display: none !important;
+            }
+            .carousel-item.active .gallery-img:first-child {
+                display: block !important;
+            }
+            .carousel-item .gallery-caption {
+                font-size: 1rem !important;
+                padding: 0.5rem 0.25rem !important;
+            }
+            .carousel-nav-btn {
+                width: 3rem !important;
+                height: 3rem !important;
+                font-size: 2rem !important;
+                padding: 0.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pink-50 to-purple-50 font-poppins min-h-screen overflow-x-hidden">
+<!-- Header -->
+<header id="mainHeader" class="fixed top-0 left-0 w-full z-40 px-2 md:px-6 py-2 md:py-3 shadow-xl bg-white/80 border-b border-pink-200 backdrop-blur-lg">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <!-- Logo Section -->
+        <div class="flex items-center gap-2 md:gap-3 min-w-0 flex-shrink-0 w-auto md:w-1/3">
+            <span class="relative flex items-center">
+                <svg class="w-7 h-7 md:w-8 md:h-8 text-pink-500 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                </svg>
+                <span class="absolute -top-1 -right-1 w-2.5 h-2.5 md:w-3 md:h-3 bg-pink-300 rounded-full animate-ping opacity-70"></span>
+            </span>
+            <span class="text-base md:text-xl lg:text-2xl font-bold font-['Pacifico',_cursive] text-pink-600 drop-shadow-sm select-none">
+                Happy Birthday Ánh
+            </span>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden lg:flex items-center justify-center gap-4 xl:gap-8 w-auto md:w-1/3">
+            <a href="#" class="nav-link text-pink-600 font-medium hover:text-purple-500 transition px-2 py-2 rounded-lg whitespace-nowrap">
+                Trang chủ
+            </a>
+            <a href="#message" class="nav-link text-pink-600 font-medium hover:text-purple-500 transition px-2 py-2 rounded-lg whitespace-nowrap">
+                Lời chúc
+            </a>
+            <a href="#gallery" class="nav-link text-pink-600 font-medium hover:text-purple-500 transition px-2 py-2 rounded-lg whitespace-nowrap">
+                Kỷ niệm
+            </a>
+            <a href="#surprise" class="nav-link text-pink-600 font-medium hover:text-purple-500 transition px-2 py-2 rounded-lg whitespace-nowrap" data-surprise>
+                Surprise
+            </a>
+        </nav>
+        
+        <!-- Right Section -->
+        <div class="flex items-center justify-end gap-2 md:gap-3 min-w-0 flex-shrink-0 w-auto md:w-1/3">
+            <span class="inline-block w-2 h-2 rounded-full bg-gradient-to-br from-pink-400 to-purple-400 animate-pulse"></span>
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="lg:hidden p-2 text-pink-600 hover:text-purple-500 transition rounded-lg hover:bg-pink-50" aria-label="Menu" type="button">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Mobile Navigation Menu - Dropdown style -->
+<div id="mobileMenu" class="lg:hidden fixed top-16 right-2 w-64 z-50 bg-white/95 backdrop-blur-lg border border-pink-200 rounded-xl shadow-2xl hidden transition-all duration-300 transform origin-top-right">
+    <div class="p-4">
+        <!-- Close button -->
+        <div class="flex justify-between items-center mb-4">
+            <span class="text-sm font-semibold text-pink-600">Menu</span>
+            <button id="closeMobileMenuBtn" class="p-1 text-pink-600 hover:text-purple-500 transition rounded-lg hover:bg-pink-50" aria-label="Close Menu" type="button">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Navigation links -->
+        <nav class="flex flex-col gap-1">
+            <a href="#" class="nav-link text-pink-600 font-medium hover:text-purple-500 transition px-3 py-2 rounded-lg text-sm hover:bg-pink-50" onclick="closeMobileMenu()">
+                Trang chủ
+            </a>
+            <a href="#message" class="nav-link text-pink-600 font-medium hover:text-purple-500 transition px-3 py-2 rounded-lg text-sm hover:bg-pink-50" onclick="closeMobileMenu()">
+                Lời chúc
+            </a>
+            <a href="#gallery" class="nav-link text-pink-600 font-medium hover:text-purple-500 transition px-3 py-2 rounded-lg text-sm hover:bg-pink-50" onclick="closeMobileMenu()">
+                Kỷ niệm
+            </a>
+            <a href="#surprise" class="nav-link text-pink-600 font-medium hover:text-purple-500 transition px-3 py-2 rounded-lg text-sm hover:bg-pink-50" data-surprise onclick="closeMobileMenu()">
+                Surprise
+            </a>
+        </nav>
+    </div>
+</div>
+
+<!-- Backdrop overlay (optional) -->
+<div id="mobileMenuBackdrop" class="lg:hidden fixed inset-0 bg-black/20 backdrop-blur-sm z-40 hidden transition-opacity duration-300" onclick="closeMobileMenu()"></div>
+
+<script>
+    // Mobile menu logic - Compact dropdown version
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuBackdrop = document.getElementById('mobileMenuBackdrop');
+    const closeMobileMenuBtn = document.getElementById('closeMobileMenuBtn');
+
+    function openMobileMenu() {
+        mobileMenu.classList.remove('hidden');
+        mobileMenuBackdrop.classList.remove('hidden');
+        
+        // Add animation classes
+        setTimeout(() => {
+            mobileMenu.classList.add('scale-100', 'opacity-100');
+            mobileMenu.classList.remove('scale-95', 'opacity-0');
+        }, 10);
+    }
+
+    function closeMobileMenu() {
+        mobileMenu.classList.add('scale-95', 'opacity-0');
+        mobileMenu.classList.remove('scale-100', 'opacity-100');
+        
+        setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+            mobileMenuBackdrop.classList.add('hidden');
+        }, 300);
+    }
+
+    // Event listeners
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+    }
+    
+    if (closeMobileMenuBtn) {
+        closeMobileMenuBtn.addEventListener('click', closeMobileMenu);
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target) && !mobileMenu.classList.contains('hidden')) {
+            closeMobileMenu();
+        }
+    });
+
+    // Close menu on navigation
+    window.addEventListener('hashchange', closeMobileMenu);
+
+    // Close menu on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+            closeMobileMenu();
+        }
+    });
+
+    // Initialize menu with hidden state
+    mobileMenu.classList.add('scale-95', 'opacity-0');
+</script>
+
+
+    <!-- Background Elements -->
+    <div class="fixed inset-0 bg-pattern opacity-30 pointer-events-none"></div>
+    <div id="sparkles" class="fixed inset-0 pointer-events-none"></div>
+    <div id="bubbles" class="fixed inset-0 pointer-events-none"></div>
+
+    <!-- Floating Birthday Messages -->
+    <div id="floating-container"></div>
+
+    <!-- Background Music -->
+    <div class="fixed bottom-4 right-4 z-30 bg-white bg-opacity-80 rounded-full p-2 shadow-lg backdrop-blur-sm">
+        <audio id="bgMusic" controls loop class="w-40 md:w-64">
+            <source src="images/birthday_song.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center px-4 py-20">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-b from-pink-100 via-purple-50 to-transparent opacity-50"></div>
+        </div>
+
+        <div class="relative z-10 text-center max-w-4xl mx-auto -mt-2">
+            <div class="photo-frame inline-block p-6 rounded-lg mb-8 backdrop-blur-sm">
+                <img src="images/ngoc-anh.jpg" alt="Ngọc Ánh" class="w-64 h-64 md:w-80 md:h-80 object-cover rounded-lg border-4 border-white shadow-md">
+                <div class="absolute -top-0.5 -right-8 transform rotate-12">
+                    <div class="bg-pink-400 text-white px-4 py-1 rounded-full text-sm shadow-lg">
+                        Sweet 17 🎂
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col items-center space-y-6 mb-4">
+                <div class="relative">
+                    <h1 class="text-5xl md:text-7xl font-bold text-pink-600 font-[\'Pacifico\',_cursive] relative inline-block mb-0">
+                        Happy Birthday
+                        <span class="absolute -top-6 -right-6 text-4xl">✨</span>
+                        <span class="absolute -bottom-4 -left-6 text-4xl">🎉</span>
+                    </h1>
+                </div>
+                <div class="flex flex-col md:flex-row md:items-center md:space-x-16">
+                    <h2 class="text-4xl md:text-6xl font-bold text-purple-600 font-[\'Pacifico\',_cursive] relative inline-block mb-0">
+                        Ngọc Ánh
+                        <span class="absolute -right-12 top-1/2 transform -translate-y-1/2">
+                            <svg class="w-8 h-8 text-red-500 animate-bounce" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                    </h2>
+                    <div class="bg-white bg-opacity-80 backdrop-blur-sm rounded-full px-6 py-3 inline-block shadow-lg transform hover:scale-105 transition-transform mt-2 md:mt-0">
+                        <p class="text-lg md:text-xl text-pink-600 font-medium flex items-center space-x-2 m-0 font-[\'Comic_Neue\',_cursive]">
+                            <span>🎂</span>
+                            <span>July 6, 2007</span>
+                            <span>🎂</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-center space-x-4 mb-8">
+                <div class="bg-pink-100 rounded-lg p-4 shadow-lg backdrop-blur-sm transform hover:scale-105 transition-transform">
+                    <p class="text-pink-600 font-medium">17 Years</p>
+                    <p class="text-gray-600 text-sm">of being amazing</p>
+                </div>
+                <div class="bg-purple-100 rounded-lg p-4 shadow-lg backdrop-blur-sm transform hover:scale-105 transition-transform">
+                    <p class="text-purple-600 font-medium">∞ Love</p>
+                    <p class="text-gray-600 text-sm">forever & always</p>
+                </div>
+                <div class="bg-red-100 rounded-lg p-4 shadow-lg backdrop-blur-sm transform hover:scale-105 transition-transform">
+                    <p class="text-red-600 font-medium">1 Heart</p>
+                    <p class="text-gray-600 text-sm">that beats for you</p>
+                </div>
+            </div>
+            
+            <div class="heart-beat inline-block relative mb-12">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                </svg>
+                <div class="absolute -top-2 -right-2 w-4 h-4 bg-pink-200 rounded-full animate-ping"></div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-0 right-0 flex justify-center">
+            <a href="#message" class="group animate-bounce bg-pink-500 text-white p-3 rounded-full shadow-lg hover:bg-pink-600 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:transform group-hover:translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Birthday Message -->
+    <section id="message" class="py-20 px-4 max-w-4xl mx-auto relative z-20">
+        <div class="bg-white bg-opacity-90 rounded-xl p-8 md:p-12 shadow-lg border border-pink-200 relative">
+            <div class="absolute -top-4 -left-4 bg-pink-500 text-white rounded-full w-10 h-10 flex items-center justify-center shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            
+            <h3 class="text-3xl md:text-4xl font-bold text-pink-600 mb-6 font-dancing text-center">To My Precious Ngọc Ánh</h3>
+            
+            <div class="space-y-4 text-gray-700 text-lg leading-relaxed">
+                <p>Happy birthday, Ngọc Ánh! 🎂🎉</p>
+                
+                <p>From the moment you smiled, my world lit up like a firework. You're not just a year older, you're a year more beautiful, wise, and unstoppable.</p>
+                
+                <p class="bg-pink-50 italic p-4 rounded-lg border-l-4 border-pink-400">"Thank you for being my sunshine on cloudy days, my laughter in quiet moments, and my peace in chaotic times."</p>
+                
+                <p>I promise to be the reason you smile every single day. Let's make this year full of dreams, memes, and midnight snacks together.</p>
+                
+                <p>May your 17th year be filled with:</p>
+                <ul class="grid grid-cols-2 gap-2">
+                    <li class="flex items-center"><span class="text-pink-500 mr-2">✦</span> Endless joy</li>
+                    <li class="flex items-center"><span class="text-pink-500 mr-2">✦</span> Beautiful memories</li>
+                    <li class="flex items-center"><span class="text-pink-500 mr-2">✦</span> Exciting adventures</li>
+                    <li class="flex items-center"><span class="text-pink-500 mr-2">✦</span> Sweet surprises</li>
+                </ul>
+                
+                <p class="text-center mt-6 text-xl font-medium text-pink-600">Love you endlessly 💖</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section id="gallery" class="py-16 px-4 bg-gradient-to-b from-white to-pink-50 ">
+        <div class="max-w-6xl mx-auto relative z-20">
+            <h3 class="text-3xl font-bold text-center text-purple-600 mb-12 font-dancing">Our Beautiful Memories</h3>
+            <div class="relative h-[32rem] overflow-hidden rounded-xl shadow-lg bg-pink-100">
+                <!-- Memory Carousel Items -->
+                <div class="carousel-item active w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_1a.jpg" alt="Memory 1 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_1b.jpg" alt="Memory 1 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_1c.jpg" alt="Memory 1 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_1d.jpg" alt="Memory 1 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+                        Vào Ngày Này 18 Năm Trước, Một Nàng Công Chúa Xinh Đẹp Tuyệt Vời Đã Ra Đời, Mang Theo Ánh Nắng Ngọt Ngào Và Niềm Vui Tới Thế Giới Này. Cô Gái Ấy Không Chỉ Đáng Yêu, Thông Minh, Mà Còn Rạng Rỡ Như Mặt Trời Và Dễ Thương Đến Mức Khiến Trái Tim Ai Cũng Tan Chảy ✨
+                    </div>
+                </div>
+                <div class="carousel-item w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_2a.jpg" alt="Memory 2 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_2b.jpg" alt="Memory 2 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_2d.jpg" alt="Memory 2 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_2e.jpg" alt="Memory 2 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+                        Con Gái Nhà Ai Mà Càng Lớn Càng Xinh Zậy Ta!!! <br>
+                        Người Yêu Ai Mà Càng Lớn Càng Dễ Thương Vậy Hảaaa Trời Ơiiii 🌸
+                    </div>
+                </div>
+                <div class="carousel-item w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_3a.jpg" alt="Memory 3 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_3b.jpg" alt="Memory 3 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_3c.jpg" alt="Memory 3 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_3d.jpg" alt="Memory 3 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+                        Ahhhh không phải tấm này. <br>
+                        Nhầm Rồi Nhầm Rồiiii ... Nhầm dân chơi Nam Ban Nào Rồiiii💕
+                    </div>
+                </div>
+                <div class="carousel-item w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_4a.jpg" alt="Memory 4 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_4b.jpg" alt="Memory 4 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_4c.jpg" alt="Memory 4 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+                        Thanh xuân, tuổi học trò cấp 3, Nhìn lại năm 17 tuổi của mình nàooo 💕 <br>
+                        Hmm Ngày này một năm trước cũng kỉ niệm ngày đầu tiên cổ chịu nhắn tin với anh
+                    </div>
+                </div>
+
+                <div class="carousel-item w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_5a.jpg" alt="Memory 5 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_5b.jpg" alt="Memory 5 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_5c.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_5d.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_5e.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+
+                    </div>
+                </div>
+
+                <div class="carousel-item w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_6a.jpg" alt="Memory 5 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_6b.jpg" alt="Memory 5 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_6c.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+
+                    </div>
+                </div>
+
+
+                <div class="carousel-item w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_7b.jpg" alt="Memory 5 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_7a.jpg" alt="Memory 5 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+
+                    </div>
+                </div>
+
+
+                <div class="carousel-item w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_8b.jpg" alt="Memory 5 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_8a.jpg" alt="Memory 5 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_8c.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+
+                    </div>
+                </div>
+
+
+                <div class="carousel-item w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_9b.jpg" alt="Memory 5 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_9a.jpg" alt="Memory 5 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+
+                    </div>
+                </div>
+
+                
+                <div class="carousel-item w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_10b.jpg" alt="Memory 5 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_10a.jpg" alt="Memory 5 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_10c.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_10d.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+
+                    </div>
+                </div>
+
+                <div class="carousel-item w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_11b.jpg" alt="Memory 5 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_11a.jpg" alt="Memory 5 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_11c.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_11d.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+
+                    </div>
+                </div>
+
+                <div class="carousel-item w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_12b.jpg" alt="Memory 5 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_12a.jpg" alt="Memory 5 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_12c.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_12d.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+
+                    </div>
+                </div>
+
+                <div class="carousel-item w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_13b.jpg" alt="Memory 5 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_13a.jpg" alt="Memory 5 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_13c.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_13d.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+
+                    </div>
+                </div>
+
+                <div class="carousel-item w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_14b.jpg" alt="Memory 5 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_14a.jpg" alt="Memory 5 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+
+                    </div>
+                </div>
+
+
+                <div class="carousel-item w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_15b.jpg" alt="Memory 5 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_15c.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_15d.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_15e.jpg" alt="Memory 5 - 3" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+
+                    </div>
+                </div>
+                <div class="carousel-item w-full h-full flex flex-col items-center justify-center p-4">
+                    <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
+                        <img src="images/img_16b.jpg" alt="Memory 5 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/img_16a.jpg" alt="Memory 5 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                    </div>
+                    <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
+
+                    </div>
+                </div>
+                <!-- Navigation -->
+                <button id="prevBtn" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 bg-white bg-opacity-80 text-pink-600 p-2 rounded-full shadow-md hover:bg-pink-100 transition z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <button id="nextBtn" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 bg-white bg-opacity-80 text-pink-600 p-2 rounded-full shadow-md hover:bg-pink-100 transition z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+                
+                <!-- Indicators -->
+                <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="0"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="1"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="2"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="3"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="4"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="5"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="6"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="7"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="8"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="9"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="10"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="11"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="12"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="13"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="14"></button>
+                    <button class="carousel-indicator w-3 h-3 rounded-full bg-pink-300 active:bg-pink-600" data-index="15"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Surprise Button -->
+    <section class="py-20 px-4 text-center">
+        <button id="surpriseBtn" class="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-8 py-4 rounded-full text-xl font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center mx-auto">
+            Click for a surprise 💌
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        </button>
+    </section>
+
+    <!-- Surprise Modal -->
+    <div id="surpriseModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 pointer-events-none p-4">
+        <div class="bg-white rounded-xl max-w-md w-full p-8 relative shadow-2xl transform transition-all duration-300 scale-90">
+            <button id="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            
+            <div class="text-center">
+                <div class="w-20 h-20 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </div>
+                
+                <h3 class="text-2xl font-bold text-pink-600 mb-4 font-dancing">To My Love</h3>
+                
+                <p class="text-gray-700 mb-6">
+                    You're my everything. <br>
+                    My favorite hello and my hardest goodbye. <br>
+                    P.S. you owe me cake 🍰
+                </p>
+                
+                <div class="flex justify-center">
+                    <a id="heartLink" href="heart.html" target="_blank" class="focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-500 animate-bounce cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-pink-600 text-white py-8 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <p class="text-lg">Made with 💖 for Ngọc Ánh's 17th Birthday</p>
+            <p class="text-sm opacity-80 mt-2">July 6, 2007 - Forever in my heart</p>
+        </div>
+    </footer>
+
+    <script>
+        // Floating messages
+        const messages = [
+        "Chúc mừng sinh nhật Ngọc Ánh của anh", 
+        "Yêu em nhiều lắm luôn á", 
+        "Happy Birthday my love", 
+        "Happy Birthday Cún Yêu Của Anh", 
+        "Tuổi 18 phát tài phát lộc nàoo",
+        "Bồ tuyệt nhất quả đất luôn",
+        "Tuổi mới xinh đẹp",
+        "Slay, giỏi giang thêm nha!",
+        "Yêu Cún của anh nhất trên đời",
+        "Sinh nhật em, love u tons!",
+        "Tuổi mới cố gắng làm tốt hơn nha!",
+        "Happy B-day my girl"
+    ];
+        
+        const colors = [
+            "text-pink-400", 
+            "text-purple-400", 
+            "text-red-400", 
+            "text-yellow-400",
+            "text-blue-400",
+            "text-green-400"
+        ];
+        
+        let lastPosition = 0;
+        const positionIncrement = 15; // percentage
+        
+        function createFloatingText() {
+            const container = document.getElementById('floating-container');
+            const text = document.createElement('div');
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            const randomSize = Math.floor(Math.random() * 8) + 16; // 16-24px
+            
+            // Cycle through positions to prevent overlap
+            lastPosition = (lastPosition + positionIncrement) % 100;
+            if (lastPosition < 10) lastPosition = 10;
+            if (lastPosition > 90) lastPosition = 90;
+            
+            text.className = `floating-text ${randomColor} font-medium`;
+            text.style.left = `${lastPosition}%`;
+            text.style.fontSize = `${randomSize}px`;
+            text.textContent = randomMessage;
+            
+            container.appendChild(text);
+            
+            // Remove after animation completes
+            setTimeout(() => {
+                text.remove();
+            }, 10000);
+        }
+        
+        // Create floating texts periodically with more spacing
+        setInterval(createFloatingText, 1200);
+        
+        // Create initial floating texts with staggered timing
+        for (let i = 0; i < 8; i++) {
+            setTimeout(createFloatingText, i * 300);
+        }
+        
+        // Carousel functionality
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        let currentIndex = 0;
+
+        let carouselInterval;
+        const AUTO_ADVANCE_TIME = 8000;
+
+        function updateCarousel() {
+            carouselItems.forEach((item, index) => {
+                if (index === currentIndex) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            indicators.forEach((indicator, index) => {
+                if (index === currentIndex) {
+                    indicator.classList.add('bg-pink-600');
+                    indicator.classList.remove('bg-pink-300');
+                } else {
+                    indicator.classList.remove('bg-pink-600');
+                    indicator.classList.add('bg-pink-300');
+                }
+            });
+        }
+
+        function resetCarouselInterval() {
+            if (carouselInterval) clearInterval(carouselInterval);
+            carouselInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % carouselItems.length;
+                updateCarousel();
+            }, AUTO_ADVANCE_TIME);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + carouselItems.length) % carouselItems.length;
+            updateCarousel();
+            resetCarouselInterval();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % carouselItems.length;
+            updateCarousel();
+            resetCarouselInterval();
+        });
+
+        indicators.forEach(indicator => {
+            indicator.addEventListener('click', () => {
+                currentIndex = parseInt(indicator.dataset.index);
+                updateCarousel();
+                resetCarouselInterval();
+            });
+        });
+
+        // Auto-advance carousel
+        resetCarouselInterval();
+        // Surprise modal functionality
+        const surpriseBtn = document.getElementById('surpriseBtn');
+        const surpriseModal = document.getElementById('surpriseModal');
+        const closeModal = document.getElementById('closeModal');
+        
+        surpriseBtn.addEventListener('click', () => {
+            surpriseModal.classList.add('active');
+            surpriseModal.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                surpriseModal.querySelector('div').classList.remove('scale-90');
+            }, 10);
+        });
+        
+        closeModal.addEventListener('click', () => {
+            surpriseModal.querySelector('div').classList.add('scale-90');
+            setTimeout(() => {
+                surpriseModal.classList.remove('active');
+                surpriseModal.classList.add('opacity-0', 'pointer-events-none');
+            }, 300);
+        });
+        
+        // Close modal when clicking outside
+        surpriseModal.addEventListener('click', (e) => {
+            if (e.target === surpriseModal) {
+                surpriseModal.querySelector('div').classList.add('scale-90');
+                setTimeout(() => {
+                    surpriseModal.classList.remove('active');
+                    surpriseModal.classList.add('opacity-0', 'pointer-events-none');
+                }, 300);
+            }
+        });
+        
+        // Try to autoplay music (may be blocked by browsers)
+        document.addEventListener('DOMContentLoaded', () => {
+            const music = document.getElementById('bgMusic');
+            music.volume = 0.3;
+            
+            // Some browsers block autoplay, so we'll try to play when user interacts
+            document.body.addEventListener('click', () => {
+                music.play().catch(e => console.log("Autoplay prevented:", e));
+            }, { once: true });
+        });
+
+        // Add sparkles
+        function createSparkles() {
+            const sparklesContainer = document.getElementById('sparkles');
+            const numberOfSparkles = 50;
+            
+            for (let i = 0; i < numberOfSparkles; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.setProperty('--duration', `${Math.random() * 2 + 1}s`);
+                sparkle.style.setProperty('--delay', `${Math.random() * 2}s`);
+                sparkle.style.left = `${Math.random() * 100}%`;
+                sparkle.style.top = `${Math.random() * 100}%`;
+                sparklesContainer.appendChild(sparkle);
+            }
+        }
+
+        // Add floating bubbles
+        function createBubbles() {
+            const bubblesContainer = document.getElementById('bubbles');
+            const numberOfBubbles = 60;
+            
+            for (let i = 0; i < numberOfBubbles; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                bubble.style.setProperty('--size', `${Math.random() * 30 + 10}px`);
+                bubble.style.setProperty('--duration', `${Math.random() * 8 + 6}s`);
+                bubble.style.setProperty('--delay', `${Math.random() * 4}s`);
+                bubble.style.setProperty('--angle', `${Math.random() * 360}deg`);
+                bubble.style.left = `${Math.random() * 100}%`;
+                bubblesContainer.appendChild(bubble);
+            }
+        }
+
+        // Initialize decorative elements
+        document.addEventListener('DOMContentLoaded', () => {
+            createSparkles();
+            createBubbles();
+            // ... existing code ...
+        });
+
+        // Hide header on scroll down, show on scroll up
+        (function() {
+            const header = document.getElementById('mainHeader');
+            let lastScroll = window.scrollY;
+            let ticking = false;
+            function onScroll() {
+                const currentScroll = window.scrollY;
+                if (currentScroll > lastScroll && currentScroll > 40) {
+                    // Scrolling down
+                    header.style.transform = 'translateY(-100%)';
+                } else {
+                    // Scrolling up
+                    header.style.transform = 'translateY(0)';
+                }
+                lastScroll = currentScroll;
+                ticking = false;
+            }
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(onScroll);
+                    ticking = true;
+                }
+            });
+        })();
+
+        // Smooth scroll for all header nav links
+        (function() {
+            function smoothScrollTo(target) {
+                if (!target) return;
+                const yOffset = 0; // header height offset
+                const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+            document.querySelectorAll('header .nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Trang chủ
+                    if (this.getAttribute('href') === '#') {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        return;
+                    }
+                    // Surprise
+                    if (this.hasAttribute('data-surprise')) {
+                        e.preventDefault();
+                        const btn = document.getElementById('surpriseBtn');
+                        if (btn) btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        return;
+                    }
+                    // Các anchor khác
+                    const href = this.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) smoothScrollTo(target);
+                    }
+                });
+            });
+        })();
+
+        // Touch swipe for photo gallery carousel (robust, only on active slide, mobile only)
+        (function() {
+            function isMobile() {
+                return window.innerWidth <= 768;
+            }
+            let startX = 0, startY = 0, isSwiping = false, moved = false;
+            const threshold = 50;
+            function handleTouchStart(e) {
+                if (!isMobile() || e.touches.length !== 1) return;
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                isSwiping = true;
+                moved = false;
+            }
+            function handleTouchMove(e) {
+                if (!isSwiping || !isMobile() || e.touches.length !== 1) return;
+                const dx = e.touches[0].clientX - startX;
+                const dy = e.touches[0].clientY - startY;
+                if (Math.abs(dx) > Math.abs(dy)) {
+                    e.preventDefault();
+                    moved = true;
+                }
+            }
+            function handleTouchEnd(e) {
+                if (!isSwiping || !isMobile()) return;
+                isSwiping = false;
+                if (!moved) return;
+                const endX = e.changedTouches[0].clientX;
+                const dx = endX - startX;
+                if (dx > threshold) {
+                    document.getElementById('prevBtn').click();
+                } else if (dx < -threshold) {
+                    document.getElementById('nextBtn').click();
+                }
+            }
+            function attachSwipeEvents() {
+                document.querySelectorAll('.carousel-item').forEach(item => {
+                    item.removeEventListener('touchstart', handleTouchStart);
+                    item.removeEventListener('touchmove', handleTouchMove);
+                    item.removeEventListener('touchend', handleTouchEnd);
+                    if (item.classList.contains('active')) {
+                        item.addEventListener('touchstart', handleTouchStart, { passive: false });
+                        item.addEventListener('touchmove', handleTouchMove, { passive: false });
+                        item.addEventListener('touchend', handleTouchEnd, { passive: false });
+                    }
+                });
+            }
+            // Attach on load and whenever carousel updates
+            document.addEventListener('DOMContentLoaded', attachSwipeEvents);
+            setInterval(attachSwipeEvents, 500); // re-attach after slide change
+        })();
+    </script>
+</body>
+</html>
