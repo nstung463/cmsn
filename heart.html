@@ -13,7 +13,7 @@
     <meta name="Keywords" content="" />
 
     <meta name="Description" content="" />
-
+    <link rel="icon" type="image/png" href="images/heart.jpeg">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
@@ -220,6 +220,30 @@
         }
       }
 
+      .corner-btn {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: #ff5ca4;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        box-shadow: 0 2px 8px rgba(255,92,164,0.3);
+        font-size: 1.5em;
+        cursor: pointer;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s, transform 0.2s;
+      }
+      .corner-btn:hover {
+        background: #e60073;
+        transform: scale(1.1);
+      }
+
     </style>
 
   </head>
@@ -238,21 +262,13 @@
      
 
       var settings = {
-
         particles: {
-
-          length: 1000,
-
-          duration: 3,
-
-          velocity: 100,
-
-          effect: -0.75,
-
-          size: 13,
-
+          length: 500, // Giảm từ 1000 xuống 500
+          duration: 2, // Giảm từ 3 xuống 2
+          velocity: 80, // Giảm từ 100 xuống 80
+          effect: -0.6, // Giảm hiệu ứng
+          size: 10, // Giảm kích thước từ 13 xuống 10
         },
-
       };
 
      
@@ -762,7 +778,9 @@
         "",
       ];
       const activeTexts = [];
-      const maxTexts = 10; // Giới hạn số lượng chữ rơi cùng lúc
+      const maxTexts = 5; // Giảm từ 10 xuống 5
+      // Detect mobile device
+      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
       function createFallingText() {
         if (activeTexts.length >= maxTexts) return; // Không tạo thêm nếu đã đủ
@@ -787,7 +805,8 @@
 
         let y = -50;
         let opacity = 0.5;
-        const speed = Math.random() * 0.5 + 0.3; // Giảm tốc độ rơi
+        // Increase speed on mobile
+        const speed = (isMobile ? 3.0 : 2.0) * (Math.random() * 0.5 + 0.3); // Giảm tốc độ rơi
 
         activeTexts.push({element: text, left: leftPos});
 
@@ -810,11 +829,11 @@
         animate();
       }
 
-      setInterval(createFallingText, 700);
+      setInterval(createFallingText, 500); // Giảm tần suất từ 700ms lên 1200ms
 
       // Falling Bubble Effect - Improved
       const activeBubbles = [];
-      const maxBubbles = 15; // Giới hạn số lượng bong bóng
+      const maxBubbles = 8; // Giảm từ 15 xuống 8
 
       function createBubble() {
         if (activeBubbles.length >= maxBubbles) return;
@@ -825,7 +844,7 @@
         bubble.style.width = size + 'px';
         bubble.style.height = size + 'px';
 
-        // Tính vị trí left không trùng lặp
+        // Calculate non-overlapping left position
         let leftPos;
         let tries = 0;
         do {
@@ -834,9 +853,12 @@
         } while (activeBubbles.some(b => Math.abs(b.left - leftPos) < 8) && tries < 10);
 
         bubble.style.left = `${leftPos}%`;
-        bubble.style.top = '-60px';
+        bubble.style.bottom = '-60px'; // Start from below the screen
+        bubble.style.top = ''; // Remove top positioning
         bubble.style.background = `rgba(255, 92, 164, ${Math.random() * 0.3 + 0.2})`;
-        bubble.style.animationDuration = `${Math.random() * 4 + 6}s`;
+        // Animation duration
+        const duration = Math.random() * 4 + 6;
+        bubble.style.animation = `bubbleUp ${duration}s linear forwards`;
         document.body.appendChild(bubble);
 
         activeBubbles.push({element: bubble, left: leftPos});
@@ -848,38 +870,47 @@
         });
       }
 
-      setInterval(createBubble, 800);
+      // Add bubbleUp keyframes if not already present
+      (function ensureBubbleUpKeyframes() {
+        if (!document.getElementById('bubbleUpKeyframes')) {
+          const style = document.createElement('style');
+          style.id = 'bubbleUpKeyframes';
+          style.innerHTML = `
+            @keyframes bubbleUp {
+              0% {
+                bottom: -60px;
+                opacity: 0.6;
+                transform: scale(1) translateY(0);
+              }
+              10% {
+                opacity: 1;
+              }
+              90% {
+                opacity: 1;
+              }
+              100% {
+                bottom: 100vh;
+                opacity: 0;
+                transform: scale(1.1) translateY(-30px);
+              }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+      })();
+
+      setInterval(createBubble, 2000); // Giảm tần suất từ 800ms lên 1500ms
 
 
 
       // List of image filenames in the /images folder
-      const imageFiles = [
-        "img_1a.jpg", "img_1b.jpg", "img_1c.jpg", "img_1d.jpg",
-        "img_2a.jpg", "img_2b.jpg", "img_2c.jpg", "img_2d.jpg", "img_2e.jpg",
-        "img_3a.jpg", "img_3b.jpg", "img_3c.jpg", "img_3d.jpg",
-        "img_4a.jpg", "img_4b.jpg", "img_4c.jpg",
-        "img_5a.jpg", "img_5b.jpg", "img_5c.jpg", "img_5d.jpg", "img_5e.jpg",
-        "img_6a.jpg", "img_6b.jpg", "img_6c.jpg",
-        "img_7a.jpg", "img_7b.jpg",
-        "img_8a.jpg", "img_8b.jpg", "img_8c.jpg", "img_8d.jpg",
-        "img_9a.jpg", "img_9b.jpg",
-        "img_10a.jpg", "img_10b.jpg", "img_10c.jpg", "img_10d.jpg",
-        "img_11a.jpg", "img_11b.jpg", "img_11c.jpg", "img_11d.jpg",
-        "img_12a.jpg", "img_12b.jpg", "img_12c.jpg", "img_12d.jpg",
-        "img_13a.jpg", "img_13b.jpg", "img_13c.jpg", "img_13d.jpg",
-        "img_14a.jpg", "img_14b.jpg",
-        "img_15a.jpg", "img_15b.jpg", "img_15c.jpg", "img_15d.jpg", "img_15e.jpg",
-        "img_16a.jpg", "img_16b.jpg",
-        "ngoc-anh.jpg", "z6717785272690_b9867e12e56e22a5ec33a803fb4ed4ce.jpg",
-        "z6717785272690_b9867e12e56e22a5ec33a803fb4ed4w.jpg",
-        "z6717785445130_ffae720365ea1f353637db65f3a381e6.jpg"
-      ];
+      const imageFiles = ['img_10a.jpg', 'img_10b.jpg', 'img_10c.jpg', 'img_10d.jpg', 'img_11a.jpg', 'img_11b.jpg', 'img_11c.jpg', 'img_11d.jpg', 'img_12a.jpg', 'img_12b.jpg', 'img_12c.jpg', 'img_12d.jpg', 'img_13a.jpg', 'img_13b.jpg', 'img_13c.jpg', 'img_13d.jpg', 'img_14a.jpg', 'img_14b.jpg', 'img_15a.jpg', 'img_15b.jpg', 'img_15c.jpg', 'img_15d.jpg', 'img_15e.jpg', 'img_16a.jpg', 'img_16b.jpg', 'img_1a.jpg', 'img_1b.jpg', 'img_1c.jpg', 'img_1d.jpg', 'img_2a.jpg', 'img_2b.jpg', 'img_2c.jpg', 'img_2d.jpg', 'img_2e.jpg', 'img_3a.jpg', 'img_3b.jpg', 'img_3c.jpg', 'img_3d.jpg', 'img_4a.jpg', 'img_4b.jpg', 'img_4c.jpg', 'img_5a.jpg', 'img_5b.jpg', 'img_5c.jpg', 'img_5d.jpg', 'img_5e.jpg', 'img_6a.jpg', 'img_6b.jpg', 'img_6c.jpg', 'img_7a.jpg', 'img_7b.jpg', 'img_8a.jpg', 'img_8b.jpg', 'img_8c.jpg', 'img_8d.jpg', 'img_9a.jpg', 'img_9b.jpg', 'ngoc-anh.jpg', 'x1.jpg', 'x10.jpg', 'x11.jpg', 'x12.jpg', 'x13.jpg', 'x14.jpg', 'x15.jpg', 'x16.jpg', 'x17.jpg', 'x18.jpg', 'x2.jpg', 'x3.jpg', 'x4.jpg', 'x5.jpg', 'x6.jpg', 'x7.jpg', 'x8.jpg', 'x9.jpg', 'z6717785272690_b9867e12e56e22a5ec33a803fb4ed4ce.jpg', 'z6717785272690_b9867e12e56e22a5ec33a803fb4ed4w.jpg', 'z6717785445130_ffae720365ea1f353637db65f3a381e6.jpg'];
 
       function createFallingImage() {
         const img = document.createElement('img');
         img.className = 'falling-image';
         img.src = `images/${imageFiles[Math.floor(Math.random() * imageFiles.length)]}`;
-        const size = Math.random() * 40 + 60; // 60-100px
+        const size = Math.random() * 50 + 60;
         img.style.width = `${size}px`;
         img.style.height = 'auto';
         img.style.position = 'fixed';
@@ -896,7 +927,8 @@
 
         let y = -120;
         let opacity = 0;
-        const speed = Math.random() * 1.2 + 0.7;
+        // Increase speed on mobile
+        const speed = (isMobile ? 2.5 : 2.0) * (Math.random() * 1.2 + 0.7);
         const rotationAmplitude = Math.random() * 15 + 10; // degrees
         const rotationSpeed = Math.random() * 0.05 + 0.02;
         const scaleAmplitude = 0.05;
@@ -931,8 +963,10 @@
         animate();
       }
 
-      setInterval(createFallingImage, 1000);
+      setInterval(createFallingImage, 1000); // Giảm tần suất từ 1000ms lên 2000ms
     </script>
+
+    <button class="corner-btn" title="Về trang chính" onclick="window.location.href='index.html'">🏠</button>
 
   </body>
 

@@ -4,13 +4,16 @@
   <meta charset="UTF-8">
   <title>Loading Love</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
+  <link rel="icon" type="image/png" href="images/logo4.jpeg">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
       background: linear-gradient(135deg, #ffe0f0 0%, #ffb6d5 100%);
-      font-family: 'Comic Sans MS', 'Poppins', cursive, sans-serif;
+      font-family: 'Poppins', 'Comic Sans MS', cursive, sans-serif;
       overflow: hidden;
     }
     .center-container {
@@ -72,12 +75,13 @@
     .loading-text {
       font-size: 2em;
       color: #ff5ca4;
-      font-weight: bold;
+      font-weight: 600;
       letter-spacing: 2px;
       text-shadow: 0 2px 10px #ffb6d5, 0 0 20px #fff;
       margin-bottom: 10px;
       animation: loading-glow 1.5s infinite alternate;
       user-select: none;
+      font-family: 'Pacifico', cursive, sans-serif;
     }
     @keyframes loading-glow {
       0% { text-shadow: 0 2px 10px #ffb6d5, 0 0 20px #fff;}
@@ -86,7 +90,7 @@
     .percent-text {
       font-size: 1.5em;
       color: #ff5ca4;
-      font-weight: bold;
+      font-weight: 600;
       margin-top: 10px;
       text-shadow: 0 2px 10px #ffb6d5, 0 0 20px #fff;
       user-select: none;
@@ -96,7 +100,7 @@
       margin-top: 40px;
       padding: 18px 60px;
       font-size: 2em;
-      font-weight: bold;
+      font-weight: 600;
       color: #fff;
       background: linear-gradient(90deg, #ff5ca4 0%, #ffb6d5 100%);
       border: none;
@@ -130,7 +134,6 @@
       30% { transform: scale(1.2);}
       60% { transform: scale(0.9);}
     }
-    /* Cute sparkles for click me */
     .sparkle {
       position: absolute;
       pointer-events: none;
@@ -150,9 +153,11 @@
       .heart-loader { width: 80px; height: 80px;}
       .heart-svg { width: 80px; height: 80px;}
       .heart-icon { font-size: 1.5em;}
-      .loading-text { font-size: 1.2em;}
-      .percent-text { font-size: 1em;}
-      .click-me-btn { font-size: 1.2em; padding: 12px 30px;}
+      .loading-text { font-size: 1.3em; }
+      .percent-text { font-size: 1em; }
+      .click-me-btn { font-size: 1.1em; padding: 12px 30px; }
+      .letter-card { padding: 24px 10px 18px 10px; max-width: 98vw; }
+      .letter-card img { width: 80px; height: 80px; }
     }
     .heart-bubble {
       position: fixed;
@@ -165,29 +170,138 @@
       user-select: none;
       animation: none;
     }
+    /* Greeting and Letter screens */
+    #greetingScreen, #letterScreen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 100;
+      background: linear-gradient(135deg,#ffe0f0 0%,#ffb6d5 100%);
+      padding: 0 10px;
+    }
+    #greetingScreen .greeting-title {
+      font-size: 2.5em;
+      color: #ff5ca4;
+      font-family: 'Pacifico', cursive, sans-serif;
+      text-shadow: 0 2px 10px #ffb6d5, 0 0 20px #fff;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    #greetingScreen .next-btn {
+      padding: 18px 60px;
+      font-size: 1.5em;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(90deg, #ff5ca4 0%, #ffb6d5 100%);
+      border: none;
+      border-radius: 40px;
+      box-shadow: 0 4px 24px #ffb6d5, 0 0 24px #fff;
+      cursor: pointer;
+      outline: none;
+      letter-spacing: 2px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .letter-card {
+      background: #fff6fa;
+      border-radius: 32px;
+      box-shadow: 0 4px 32px #ffb6d5, 0 0 24px #fff;
+      padding: 40px 32px 32px 32px;
+      max-width: 90vw;
+      max-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 auto;
+    }
+    .letter-card img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0 2px 16px #ffb6d5;
+      margin-bottom: 24px;
+      border: 4px solid #ffb6d5;
+    }
+    .letter-card .letter-title {
+      font-size: 1.3em;
+      color: #ff5ca4;
+      font-family: 'Pacifico', cursive, sans-serif;
+      text-align: center;
+      margin-bottom: 18px;
+    }
+    .letter-card .letter-content {
+      font-size: 1.1em;
+      color: #d72660;
+      font-family: 'Poppins', 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      max-width: 400px;
+    }
+    #letterScreen .continue-btn {
+      margin-top: 40px;
+      padding: 16px 50px;
+      font-size: 1.3em;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(90deg, #ff5ca4 0%, #ffb6d5 100%);
+      border: none;
+      border-radius: 40px;
+      box-shadow: 0 4px 24px #ffb6d5, 0 0 24px #fff;
+      cursor: pointer;
+      outline: none;
+      letter-spacing: 2px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    /* Music button */
+    #musicBtn {
+      display: none;
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 1000;
+      padding: 14px 28px;
+      font-size: 1.2em;
+      background: #ffb6d5;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      box-shadow: 0 2px 12px #ffb6d5;
+      cursor: pointer;
+    }
+    @media (max-width: 400px) {
+      .letter-card { padding: 12px 2vw 10px 2vw; }
+      .letter-card img { width: 60px; height: 60px; }
+    }
   </style>
 </head>
 <body>
-  <audio id="bgMusic" src="images/birthday_song_1.mp3" preload="auto" loop style="display:none"></audio>
-  <button id="musicBtn" style="display:none;position:fixed;top:24px;right:24px;z-index:1000;padding:14px 28px;font-size:1.2em;background:#ffb6d5;color:#fff;border:none;border-radius:30px;box-shadow:0 2px 12px #ffb6d5;cursor:pointer;">🔊 Turn on music</button>
+  <audio id="bgMusic" src="audio/birthday_song_1.mp3" preload="auto" loop style="display:none"></audio>
+  <button id="musicBtn">🔊 Turn on music</button>
   <!-- Greeting Screen -->
-  <div id="greetingScreen" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;width:100vw;position:fixed;top:0;left:0;z-index:100;background:linear-gradient(135deg,#ffe0f0 0%,#ffb6d5 100%);">
-    <div style="font-size:2.5em;color:#ff5ca4;font-family:'Pacifico','Comic Sans MS',cursive,sans-serif;text-shadow:0 2px 10px #ffb6d5,0 0 20px #fff;margin-bottom:40px;">Happy Birthday my baby! 💖</div>
-    <button id="nextBtn" style="padding:18px 60px;font-size:1.5em;font-weight:bold;color:#fff;background:linear-gradient(90deg,#ff5ca4 0%,#ffb6d5 100%);border:none;border-radius:40px;box-shadow:0 4px 24px #ffb6d5,0 0 24px #fff;cursor:pointer;outline:none;letter-spacing:2px;transition:transform 0.2s,box-shadow 0.2s;display:flex;align-items:center;gap:12px;">Next <span style='font-size:1.3em;'>🪐</span></button>
+  <div id="greetingScreen">
+    <div class="greeting-title">Happy Birthday my baby! 💖</div>
+    <button id="nextBtn" class="next-btn">Next <span style='font-size:1.3em;'>🪐</span></button>
   </div>
   <!-- Letter Screen -->
-  <div id="letterScreen" style="display:none;flex-direction:column;align-items:center;justify-content:center;height:100vh;width:100vw;position:fixed;top:0;left:0;z-index:99;background:linear-gradient(135deg,#ffe0f0 0%,#ffb6d5 100%);">
-    <div style="background:#fff6fa;border-radius:32px;box-shadow:0 4px 32px #ffb6d5,0 0 24px #fff;padding:40px 32px 32px 32px;max-width:90vw;max-height:70vh;display:flex;flex-direction:column;align-items:center;">
-      <img src='images/ngoc-anh.jpg' alt='Cute Letter' style='width:120px;height:120px;object-fit:cover;border-radius:50%;box-shadow:0 2px 16px #ffb6d5;margin-bottom:24px;border:4px solid #ffb6d5;'>
-      <div style="font-size:1.3em;color:#ff5ca4;font-family:'Pacifico','Comic Sans MS',cursive,sans-serif;text-align:center;margin-bottom:18px;">To my dearest Ngọc Ánh 💌</div>
-      <div style="font-size:1.1em;color:#d72660;font-family:'Poppins','Comic Sans MS',cursive,sans-serif;text-align:center;max-width:400px;">
+  <div id="letterScreen" style="display:none;">
+    <div class="letter-card">
+      <img src='images/ngoc-anh.jpg' alt='Cute Letter'>
+      <div class="letter-title">To my dearest Ngọc Ánh 💌</div>
+      <div class="letter-content">
         Wishing you a birthday filled with joy, laughter, and all the love in the world!<br>
         You are always beautiful, always shining, and forever my special one.<br>
         Chúc em tuổi mới luôn rạng rỡ, hạnh phúc và thành công nhé!<br>
         <span style='font-size:1.5em;'>💗🌸✨</span>
       </div>
     </div>
-    <button id="continueBtn" style="margin-top:40px;padding:16px 50px;font-size:1.3em;font-weight:bold;color:#fff;background:linear-gradient(90deg,#ff5ca4 0%,#ffb6d5 100%);border:none;border-radius:40px;box-shadow:0 4px 24px #ffb6d5,0 0 24px #fff;cursor:pointer;outline:none;letter-spacing:2px;transition:transform 0.2s,box-shadow 0.2s;">Continue</button>
+    <button id="continueBtn" class="continue-btn">Continue</button>
   </div>
   <div class="center-container" style="display:none;">
     <div class="heart-loader">
