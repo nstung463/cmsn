@@ -400,7 +400,7 @@
             
             <div class="flex justify-center space-x-4 mb-8">
                 <div class="bg-pink-100 rounded-lg p-4 shadow-lg backdrop-blur-sm transform hover:scale-105 transition-transform">
-                    <p class="text-pink-600 font-medium">17 Years</p>
+                    <p class="text-pink-600 font-medium">18 Years</p>
                     <p class="text-gray-600 text-sm">of being amazing</p>
                 </div>
                 <div class="bg-purple-100 rounded-lg p-4 shadow-lg backdrop-blur-sm transform hover:scale-105 transition-transform">
@@ -446,16 +446,16 @@
                 
                 <p>From the moment you smiled, my world lit up like a firework. You're not just a year older, you're a year more beautiful, wise, and unstoppable.</p>
                 
-                <p class="bg-pink-50 italic p-4 rounded-lg border-l-4 border-pink-400">"Thank you for being my sunshine on cloudy days, my laughter in quiet moments, and my peace in chaotic times."</p>
+                <p class="bg-pink-50 italic p-4 rounded-lg border-l-4 border-pink-400">"Cảm ơn em đã là ánh nắng trong những ngày u ám, là tiếng cười trong những khoảnh khắc tĩnh lặng, và là sự bình yên giữa những xô bồ."</p>
                 
-                <p>I promise to be the reason you smile every single day. Let's make this year full of dreams, memes, and midnight snacks together.</p>
+                <p>Anh hứa sẽ là lý do khiến em mỉm cười mỗi ngày. Cùng nhau tạo nên một năm ngập tràn những giấc mơ, hành phúc nha, vượt qua mọi khó khăn thử thách nhaaa.</p>
                 
-                <p>May your 17th year be filled with:</p>
+                <p>Chúc tuổi 18 của em ngập tràn:</p>
                 <ul class="grid grid-cols-2 gap-2">
-                    <li class="flex items-center"><span class="text-pink-500 mr-2">✦</span> Endless joy</li>
-                    <li class="flex items-center"><span class="text-pink-500 mr-2">✦</span> Beautiful memories</li>
-                    <li class="flex items-center"><span class="text-pink-500 mr-2">✦</span> Exciting adventures</li>
-                    <li class="flex items-center"><span class="text-pink-500 mr-2">✦</span> Sweet surprises</li>
+                    <li class="flex items-center"><span class="text-pink-500 mr-2">✦</span> Niềm vui bất tận </li>
+                    <li class="flex items-center"><span class="text-pink-500 mr-2">✦</span> Những kỷ niệm thật đẹp</li>
+                    <li class="flex items-center"><span class="text-pink-500 mr-2">✦</span> Trải nghiệm thú vị</li>
+                    <li class="flex items-center"><span class="text-pink-500 mr-2">✦</span> Những bất ngờ ngọt ngào 💖</li>
                 </ul>
                 
                 <p class="text-center mt-6 text-xl font-medium text-pink-600">Love you endlessly 💖</p>
@@ -632,6 +632,7 @@
                     <div class="gallery-row flex flex-row gap-4 w-full h-4/5 justify-center items-center">
                         <img src="images/img_14b.jpg" alt="Memory 5 - 2" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
                         <img src="images/img_14a.jpg" alt="Memory 5 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
+                        <img src="images/x23.jpg" alt="Memory 5 - 1" class="gallery-img object-cover rounded-lg h-full max-h-80 w-auto shadow-md">
                     </div>
                     <div class="gallery-caption mt-2 mb-4 text-center text-lg text-pink-700 font-medium italic">
                         Nhìn giề mà nhìn 🐷🐷🐷
@@ -927,15 +928,17 @@
         function playSong() {
             const playPromise = bgMusic.play();
             if (playPromise !== undefined) {
-                playPromise.then(_ => {
+                return playPromise.then(_ => {
                     musicPlayIcon.classList.add('hidden');
                     musicPauseIcon.classList.remove('hidden');
                 }).catch(error => {
                     console.error("Music play failed:", error);
                     musicPlayIcon.classList.remove('hidden');
                     musicPauseIcon.classList.add('hidden');
+                    throw error; // Re-throw to allow chaining
                 });
             }
+            return Promise.resolve();
         }
         function pauseSong() {
             bgMusic.pause();
@@ -966,14 +969,26 @@
         // musicPrevBtn.addEventListener('click', prevSong); // Uncomment if you add prev button
         bgMusic.addEventListener('ended', nextSong); // Auto-next when song ends
 
-        // Try to autoplay music when the site loads
+        // Autoplay music with user interaction workaround
         document.addEventListener('DOMContentLoaded', () => {
             loadSong(currentSongIndex);
             bgMusic.volume = 0.3;
             
-            // Most browsers block autoplay without user interaction.
-            // We attempt to play, and if it fails, the user can use the play button.
-            playSong();
+            // Create a one-time click handler for the whole document
+            const playMusicOnInteraction = () => {
+                playSong().catch(e => console.log("Autoplay prevented:", e));
+                document.removeEventListener('click', playMusicOnInteraction);
+                document.removeEventListener('touchstart', playMusicOnInteraction);
+                document.removeEventListener('keydown', playMusicOnInteraction);
+            };
+            
+            // Try to play immediately (may fail due to browser restrictions)
+            playSong().catch(() => {
+                // If blocked, wait for user interaction
+                document.addEventListener('click', playMusicOnInteraction);
+                document.addEventListener('touchstart', playMusicOnInteraction);
+                document.addEventListener('keydown', playMusicOnInteraction);
+            });
         });
 
         // Add sparkles
